@@ -1,0 +1,178 @@
+﻿@model List<ProyectoWeb.Entities.FacturasEnt>
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Factura";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+
+    .custom-btn {
+        color: #fff !important;
+    }
+
+</style>
+
+<div class="section">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-9 col-md-8 col-12">
+
+                <!-- Encabezado Factura -->
+
+                <div class="factura-header">
+
+                    <h2>Factura No. @Model.FirstOrDefault()?.IdFacturaEncabezado</h2>
+
+                </div>
+
+                <!-- Shopping Cart -->
+
+                <div class="shopping-cart">
+
+                    <table class="table shopping-summery">
+
+                        <thead>
+
+                            <tr class="main-hading">
+
+                                <th class="text-center">Nombre Producto</th>
+
+                                <th class="text-center">Cantidad</th>
+
+                                <th class="text-center">Precio Unitario</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+
+                            {
+
+                                <tr>
+
+                                    <td class="text-center">@item.NombreProducto</td>
+
+                                    <td class="text-center">@item.Cantidad</td>
+
+                                    <td class="text-center">@item.Precio</td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Impuestos y Total a Pagar -->
+
+                <div class="total-amount">
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-12">
+
+                            <div class="left">
+
+                                <!-- Contenido de la parte izquierda -->
+
+                                <ul>
+
+                                    <li>Impuestos: @Model.Sum(x => x.Impuesto)</li>
+
+                                    <li class="last">Total a Pagar: @Model.Sum(x => x.TotalPago)</li>
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!--/ End Impuestos y Total a Pagar -->
+                <!-- Nombre Cliente y Fecha de Pago -->
+
+                <div class="row">
+
+                    <div class="col-lg-6 col-md-6 col-12">
+
+                        <p><strong>Nombre Cliente: </strong>@Model.FirstOrDefault()?.IdUsuario</p>
+
+                        <p><strong>Fecha de Pago: </strong>@Model.FirstOrDefault()?.FechaPago</p>
+
+                    </div>
+
+                </div>
+
+                <!--/ End Nombre Cliente y Fecha de Pago -->
+                <!-- Botones Volver al Inicio y Enviar al Correo -->
+                <br />
+                <div class="button5">
+                    <a href="@Url.Action("Index", "Login")" class="btn custom-btn">Vuelve al Inicio</a>
+                </div>
+                <br />
+                <div>
+                    <button id="EnviarCorreoFacturabtn" class="btn custom-btn">Enviar por Correo tu Factura</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ End Total Amount -->
+                </div>
+            </div>
+<!--/ End Shopping Cart -->
+        </div>
+    </div>
+</div>
+<!--/ End Lo mejor en lentes y anteojos -->
+<!-- Agrega el script de jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Asociar un evento click al botón
+        $("#EnviarCorreoFacturabtn").on("click", function (e) {
+            e.preventDefault(); // Prevenir el comportamiento predeterminado del botón
+
+            // Obtener el IdUsuario de la vista o de alguna fuente disponible
+            var idUsuario = '@ViewBag.IdUsuario'; // Encerrar ViewBag.IdUsuario entre comillas simples para que sea interpretado correctamente en JavaScript
+
+
+            // Construir la URL para la solicitud AJAX
+            var url = '@Url.Action("EnviarCorreoFactura", "Carrito")' + '?idUsuario=' + idUsuario;
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                url: url,
+                type: "POST",
+                success: function (response) {
+                    // Manejar la respuesta exitosa aquí
+                    alert("Correo enviado correctamente: " + response);
+                },
+                error: function (xhr, status, error) {
+                    // Manejar errores aquí
+                    alert("Error al enviar el correo: " + error);
+                }
+            });
+        });
+    });
+</script>
+
+

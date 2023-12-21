@@ -1,0 +1,24 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.nav-link {
+    white-space: nowrap; /* Evita el salto de línea */
+    overflow: hidden; /* Oculta el exceso de texto */
+    text-overflow: ellipsis; /* Agrega "..." al final del texto si es demasiado largo */
+}

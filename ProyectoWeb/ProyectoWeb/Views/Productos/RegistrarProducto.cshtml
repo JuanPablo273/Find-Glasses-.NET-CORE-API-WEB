@@ -1,0 +1,57 @@
+﻿@model ProyectoWeb.Entities.ProductosEnt
+
+@{
+    ViewData["Title"] = "ProductosLista";
+    Layout = "~/Views/Shared/_Layout_Administracion.cshtml";
+}
+
+<div class="content-wrapper d-flex align-items-center auth px-0">
+    <div class="row w-100 mx-0">
+        <div class="col-lg-4 mx-auto">
+
+            <div class="brand-logo">
+                <h1>Registrar Producto</h1>
+                <br />
+            </div>
+
+            @using (Html.BeginForm("RegistrarProducto", "Productos", FormMethod.Post, new { @class = "pt-3", @enctype = "multipart/form-data" }))
+            {
+                @ViewBag.MensajePantalla
+
+
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.nombreProducto, new { @class="form-control form-control-lg", @type="text", @placeholder="Nombre del Producto" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.descripcion, new { @class="form-control form-control-lg", @type="text", @placeholder="Descripcion" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.precio, new { @class="form-control form-control-lg", @type="text", @placeholder="Precio" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.cantidadStock, new { @class="form-control form-control-lg", @type="number", @placeholder="Cantidad en Stock" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.marca, new { @class="form-control form-control-lg", @type="text", @placeholder="Marca" })
+                </div>
+                <div class="form-group">
+                    @Html.DropDownListFor(m => m.tipoProducto, ViewBag.TiposProducto as List<SelectListItem>, new { @class = "form-control form-control-lg" })
+                </div>
+                <div class="form-group">
+                    <br><br><br>
+                    <label>Imagen del Producto</label>
+                    <input type="file" id="ImgProducto" accept="image/png" name="ImgProducto" class="form-control form-control-lg">
+                </div>
+                <br />
+                <button type="submit" class="btn btn-dark text-white rounded">Registrar</button>
+
+
+                <br />
+                <br />
+                <br />
+
+            }
+        </div>
+    </div>
+</div>
+

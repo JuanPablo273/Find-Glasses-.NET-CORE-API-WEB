@@ -1,0 +1,127 @@
+﻿@model ProyectoWeb.Entities.CombinacionEnt
+
+@{
+    ViewData["Title"] = "PagarCarrito";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #showData th,
+    #showData td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    #showData th {
+        background-color: #f2f2f2;
+    }
+</style>
+<section class="shop checkout section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="checkout-form">
+                    <h2>Haga su pago aquí</h2>
+                    <p>Tus datos personales para facturar</p>
+                    <!-- Form -->
+                    <form class="form" method="post" action="#">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Nombre<span></span></label>
+                                    @Html.TextBoxFor(m => Model.Usuario.nombre, new { @readonly="readonly", @class="form-control form-control-lg", @type="text", @placeholder="Nombre" })
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Usuario<span></span></label>
+                                    @Html.TextBoxFor(m => Model.Usuario.usuario, new { @readonly="readonly", @class="form-control form-control-lg", @type="text", @placeholder="Usuario" })
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Email<span></span></label>
+                                    @Html.TextBoxFor(m => Model.Usuario.correo, new { @readonly="readonly", @class="form-control form-control-lg", @type="email", @placeholder="Correo Electrónico" })
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Provincia <span></span></label>
+                                    @Html.DropDownListFor(m => Model.Usuario.ConProvincia, ViewBag.Provincias as List<SelectListItem>, new { @class="form-control form-control-lg", @disabled="disabled" })
+                                </div>
+                            </div>
+
+                            <div class="button5">
+                                <a href="@Url.Action("Index", "Login")" class="btn custom-btn" style="color: white;">Vuelve al Inicio</a>
+                            </div>
+
+                        </div>
+                    </form>
+                    <!--/ End Form -->
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="order-details">
+                    <!-- Order Widget -->
+                    <div class="table-responsive">
+                        <table id="showData" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unitario</th>
+                                    <th>SubTotal</th>
+                                    <th>Impuestos</th>
+                                    <th>Total</th>
+                                    <th>Eliminar artículo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.CarritoItems)
+                                {
+                                    <tr>
+                                        <td>@item.NombreProducto</td>
+                                        <td>@item.Cantidad</td>
+                                        <td>@item.Precio.ToString("N2")</td>
+                                        <td>@item.SubTotal.ToString("N2")</td>
+                                        <td>@item.Impuesto.ToString("N2")</td>
+                                        <td>@item.Total.ToString("N2")</td>
+                                        <td style="text-align:center"><a href="@Url.Action("EliminarProductoCarrito","Carrito", new { q = item.IdCarrito })"><i class="fa fa-remove fa-lg"></i></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--/ End Order Widget -->
+                    <!-- Payment Method Widget -->
+                    <div class="single-widget payement">
+                        <div class="content">
+                            <img src="~/images/payment-method.png" alt="#">
+                        </div>
+                    </div>
+                    <!--/ End Payment Method Widget -->
+                    <!-- Button Widget -->
+                    <div class="single-widget">
+                        @if (Context.Session.GetString("Total") != "0")
+                        {
+                            <div class="row" style="margin-top:2%">
+                                <div class="col-12">
+                                    <p style="text-align:center; font-weight:bold; font-size:12pt; line-height:40px"> El total a pagar es de: @decimal.Parse(Context.Session.GetString("Total")).ToString("N2").ToString() </p>
+                                </div>
+                                <div class="col-12">
+                                    @using (Html.BeginForm("PagarCarrito", "Carrito", FormMethod.Post))
+                                    {
+                                        <div class="button">
+                                            <input type="submit" class="btn btn-primary" value="Pagar">
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <!--/ End Button Widget -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ End Checkout -->

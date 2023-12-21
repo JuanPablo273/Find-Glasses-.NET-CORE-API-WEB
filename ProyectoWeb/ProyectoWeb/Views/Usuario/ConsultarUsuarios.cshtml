@@ -1,0 +1,61 @@
+﻿@model List<ProyectoWeb.Entities.UsuarioEnt>
+
+@{
+    ViewData["Title"] = "ConsultarUsuarios";
+    Layout = "~/Views/Shared/_Layout_Administracion.cshtml";
+}
+
+<div class="col-lg-10 mx-auto">
+    <div class="text-center">
+            <h1>Lista de Usuarios</h1>
+    </div>
+
+    <br />
+
+    <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0 col-lg-12">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Identificación</th>
+                        <th>Nombre</th>
+                        <th>Correo Electrónico</th>
+                        <th>Estado</th>
+                        <th>Cambiar Estado</th>
+                        <th>Actualizar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.identificacion</td>
+                            <td>@item.nombre</td>
+                            <td>@item.correo</td>
+
+                            @if (@item.estado)
+                            {
+                                <td>Activo</td>
+                            }
+                            else
+                            {
+                                <td>Inactivo</td>
+                            }
+
+                            <td style="text-align:center">
+                                <a href="@Url.Action("ActualizarEstadoUsuario","Usuario", new { q = item.IdUsuario })">
+                                    <i class="fa fa-exchange fa-lg"></i>
+                                </a>
+                            </td>
+                            <td style="text-align:center">
+                                <a href="@Url.Action("ActualizarUsuario","Usuario", new { q = item.IdUsuario })">
+                                    <i class="fa fa-user fa-lg"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

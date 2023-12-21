@@ -1,0 +1,83 @@
+﻿@model List<ProyectoWeb.Entities.ProductosEnt>
+
+@{
+    ViewData["Title"] = "ProductosLista";
+    Layout = "~/Views/Shared/_Layout_Administracion.cshtml";
+}
+
+<div class="col-lg-10 mx-auto">
+    <div class="text-center">
+        <h1>Lista de Productos</h1>
+    </div>
+
+    <br />
+    <div class="mt-3 row w-100 mx-0 col-lg-4">
+        <a class="btn btn-dark text-white rounded" href="@Url.Action("RegistrarProducto", "Productos")">Agregar</a>
+    </div>
+    <br />
+    <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0 col-lg-12">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Marca</th>
+                        <th>Tipo Producto</th>
+                        <th>Estado</th>
+                        <th>Imagen</th>
+                        <th>Cambiar Estado</th>
+                        <th>Actualizar</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var producto in Model)
+                    {
+                        <tr>
+                            <td>@producto.nombreProducto</td>
+                            <td>@producto.descripcion</td>
+                            <td>@producto.precio</td>
+                            <td>@producto.cantidadStock</td>
+                            <td>@producto.marca</td>
+                            <td>
+                                @{
+                                    if (producto.tipoProducto == 1)
+                                    {
+                                        <text>Lentes de sol</text>
+                                    }
+                                    else if (producto.tipoProducto == 2)
+                                    {
+                                        <text>Anteojos</text>
+                                    }
+                                    else if (producto.tipoProducto == 3)
+                                    {
+                                        <text>Accesorios</text>
+                                    }
+                                    else
+                                    {
+                                        <text>Otro Tipo</text>
+                                    }
+                                }
+                            </td>
+                            @if (@producto.estado)
+                            {
+                                <td>Activo</td>
+                            }
+                            else
+                            {
+                                <td>Inactivo</td>
+                            }
+                            <td style="text-align:center"><img src=@producto.Imagen style="width:150px; height:150px; border-radius:0px"></td>
+                            <td style="text-align:center"><a href="@Url.Action("ActualizarEstadoProducto","Productos", new { q = producto.IdProducto })"><i class="fa fa-exchange fa-lg"></i></a></td>
+                            <td style="text-align:center"><a href="@Url.Action("ActualizarProducto","Productos", new { id = producto.IdProducto })"><i class="fa fa-pencil fa-lg"></i></a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

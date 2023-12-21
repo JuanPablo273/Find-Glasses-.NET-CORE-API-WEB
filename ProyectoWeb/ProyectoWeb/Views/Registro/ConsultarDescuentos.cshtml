@@ -1,0 +1,61 @@
+﻿@model List<ProyectoWeb.Entities.DescuentosEnt>
+
+@{
+    ViewData["Title"] = "DescuentoLista";
+    Layout = "~/Views/Shared/_Layout_Administracion.cshtml";
+}
+
+<div class="col-lg-10 mx-auto">
+    <div class="text-center">
+        <h1>Lista de Descuentos</h1>
+    </div>
+
+    <br />
+    <div class="mt-3 row w-100 mx-0 col-lg-4">
+        <a class="btn btn-dark text-white rounded" href="@Url.Action("RegistrarProducto", "Productos")">Agregar</a>
+    </div>
+    <br />
+    <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0 col-lg-12">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Porcentaje de Descuento</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha  De Fin</th>
+                        <th>Codigo Del Descuento</th>
+                        <th>Estado</th>
+                        <th>Actualizar el Estado</th>
+                        <th>Modificar el Descuento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var descuentos in Model)
+                    {
+                        <tr>
+                            <td>@descuentos.Nombre</td>
+                            <td>@descuentos.Descripcion</td>
+                            <td>@descuentos.PorcentajeDescuento</td>
+                            <td>@descuentos.FechaInicio</td>
+                            <td>@descuentos.FechaFin</td>
+                            <td>@descuentos.CodigoDescuento</td>
+                            @if (@descuentos.Estado)
+                            {
+                                <td>Activo</td>
+                            }
+                            else
+                            {
+                                <td>Inactivo</td>
+                            }
+                            <td style="text-align:center"><a href="@Url.Action("ActualizarEstadoDescuento","Registro", new { q = descuentos.IdDescuento })"><i class="fa fa-exchange fa-lg"></i></a></td>
+                            <td style="text-align:center"><a href="@Url.Action("ActualizarDescuento","Registro", new { id = descuentos.IdDescuento })"><i class="fa fa-pencil fa-lg"></i></a></td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    max-height: 60px; /* Ajusta el tamaño máximo según tu diseño */
+}
+
+
+/* Barra de busqueda */
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px; /* Ajusta el margen superior según sea necesario */
+}
+
+.search-bar form {
+    width: 100%;
+    max-width: 400px; /* Ajusta el ancho máximo según tus necesidades */
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px; /* Ajusta el relleno según sea necesario */
+    font-size: 16px; /* Ajusta el tamaño de fuente según sea necesario */
+}
+

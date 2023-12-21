@@ -1,0 +1,305 @@
+﻿<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='copyright' content=''>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Find Glasses.</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/template/css/bootstrap.css">
+    <link rel="stylesheet" href="~/template/css/magnific-popup.min.css">
+    <link rel="stylesheet" href="~/template/css/font-awesome.css">
+    <link rel="stylesheet" href="~/template/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/template/css/themify-icons.css">
+    <link rel="stylesheet" href="~/template/css/niceselect.css">
+    <link rel="stylesheet" href="~/template/css/animate.css">
+    <link rel="stylesheet" href="~/template/css/flex-slider.min.css">
+    <link rel="stylesheet" href="~/template/css/owl-carousel.css">
+    <link rel="stylesheet" href="~/template/css/slicknav.min.css">
+    <link rel="stylesheet" href="~/template/css/reset.css">
+    <link rel="stylesheet" href="~/template/style.css">
+    <link rel="stylesheet" href="~/template/css/responsive.css">
+    <link rel="stylesheet" href="~/template/css/whatsapp.css" />
+
+
+</head>
+<body class="js">
+    <header class="header shop">
+        <div class="middle-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a href="@Url.Action("Index", "Login")" class="logo">
+                            <img src="~/images/logo_FindGlasses.png" alt="Logo Find Glasses">
+                        </a>
+                    </div>
+
+                    <div class="col-lg-5 col-md-3 col-12">
+                        <div class="right-bar">
+                            <!--Inicio Carrito de compras-->
+                            @if (Context.Session.GetString("NombreUsuario") != null)
+                            {
+                                <div class="sinlge-bar shopping">
+                                    <a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count">@Context.Session.GetString("Cantidad").ToString()</span></a>
+                                    <div class="shopping-item">
+                                        <div class="dropdown-cart-header">
+                                            @if (@Context.Session.GetString("Cantidad".ToString()) == "1")
+                                            {
+                                                <span>@Context.Session.GetString("Cantidad").ToString() Item</span>
+                                            }
+                                            else
+                                            {
+
+                                                <span>@Context.Session.GetString("Cantidad").ToString() Items</span>
+                                            }
+                                            <a href="#">Carrito de compras</a>
+                                        </div>
+                                        <div class="bottom">
+                                            <div class="total">
+                                                <span>Total</span>
+                                                <span class="total-amount">₡ @decimal.Parse(Context.Session.GetString("Total")).ToString("N2").ToString()</span>
+                                            </div>
+                                            <a href="@Url.Action("Pagar","Carrito")">Pagar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <!--Fin Carrito de compras-->
+                            <div class="sinlge-bar">
+                                <ul>
+                                    <li class="nav-item nav-profile dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown" style="display: flex; align-items: center;">
+                                            <i class="fa fa-user-circle-o" style="font-size: 1.8em; margin-right: 10px;" aria-hidden="true"></i>
+                                            @if (Context.Session.GetString("NombreUsuario") != null)
+                                            {
+                                                <span style="vertical-align: middle;">@Context.Session.GetString("NombreUsuario")</span>
+                                            }
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                                            @if (Context.Session.GetString("NombreUsuario") != null)
+                                            {
+                                                <a class="dropdown-item" href="@Url.Action("PerfilUsuario","Usuario")">
+                                                    <i class="ti-user text-primary"></i>
+                                                    Perfil
+                                                </a>
+
+
+                                                <a class="dropdown-item" href="@Url.Action("CambiarClave","Usuario")">
+                                                    <i class="ti-key text-primary"></i>
+                                                    Cambiar Contraseña
+                                                </a>
+
+                                                @if (Context.Session.GetString("RolUsuario") == "1")
+                                                {
+                                                    <a class="dropdown-item" href="@Url.Action("ConsultarUsuarios", "Usuario")">
+                                                        <i class="ti-settings text-primary"></i>
+                                                        Administrar Usuarios
+                                                    </a>
+
+                                                    <a class="dropdown-item" href="@Url.Action("ProductosLista", "Productos")">
+                                                        <i class="ti-menu-alt text-primary"></i>
+                                                        Administrar Productos
+                                                    </a>
+
+
+                                                    <a class="dropdown-item" href="@Url.Action("ProductosMasVendidosLista","Registro")">
+                                                        <i class="ti-settings text-primary"></i>
+                                                        Consulta de Productos/Inventario de ventas
+                                                    </a>
+
+
+                                                    <a class="dropdown-item" href="@Url.Action("ConsultarDescuentos","Registro")">
+                                                        <i class="ti-settings text-primary"></i>
+                                                        Consulta de Descuentos
+                                                    </a>
+
+
+                                                }
+
+                                                <a class="dropdown-item" href="@Url.Action("CerrarSesion","Login")">
+                                                    <i class="ti-power-off text-primary"></i>
+                                                    Cerrar Sesión
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="dropdown-item" href="@Url.Action("IniciarSesion","Login")">
+                                                    <i class="ti-home text-primary"></i>
+                                                    Iniciar Sesión
+                                                </a>
+                                            }
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <!-- Tu código HTML -->
+        <div class="header-inner">
+            <div class="container">
+                <div class="cat-nav-head">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="all-category">
+                                <!-- Agrega un identificador único para el menú desplegable -->
+                                <h3 class="cat-heading"><i class="fa fa-bars" aria-hidden="true" id="toggleCategories"></i>Categorías</h3>
+                                <ul class="main-category" id="categoriesDropdown" style="display: none;">
+                                    <li><a href="#seccionProductos">Lentes de sol</a></li>
+                                    <li><a href="#seccionProductos">Anteojos</a></li>
+                                    <li><a href="#seccionProductos">Accesorios</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </header>
+
+    <section class="hero-slider">
+        <div class="single-slider">
+            <div class="container">
+                <div class="row no-gutters">
+                    <div class="col-lg-9 offset-lg-3 col-12">
+                        <div class="text-inner">
+                            <div class="row">
+                                <div class="col-lg-7 col-12">
+                                    <div class="hero-text">
+                                        <h1 style="color: white;"><span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">¡Las mejores alternativas para tu vista!</span> Lentes y anteojos</h1>
+                                        <p style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">¡Si no lo encuentras aquí,<br> aún no tienes nuestros lentes puestos!</p>
+                                        <div class="button">
+                                            <a href="@Url.Action("Pagar", "Carrito")" class="btn">¡Compra ahora!</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="col-lg-12 col-md-7  search-bar">
+        <form action="@Url.Action("BuscarProductos", "Productos")" method="post">
+            <input name="nombreProducto" placeholder="Buscar producto..." type="search">
+        </form>
+    </div>
+
+    @RenderBody()
+
+    <div id="whatsapp-logo">
+        <a class="dropdown-item" href="@Url.Action("EnviarMensaje", "Login")">
+            <img src="~/images/whatsapp.png" alt="WhatsApp Logo" />
+        </a>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-top section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6 col-12">
+                        <div class="single-footer about">
+                            <p class="call"><span><a href="#">¡Lo mejor en lentes y anteojos!</a></span></p>
+                            <p class="call">¿Tienes alguna pregunta? Escríbenos al correo <b>lentesyanteojos@ayuda.com</b><span><a href="#"></a></span></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+                        <div class="single-footer links">
+                            <h4>Información</h4>
+                            <ul>
+                                <li><a href="#">Acerca de nosotros</a></li>
+                                <li><a href="#">Preguntas frecuentes</a></li>
+                                <li><a href="#">Términos y condiciones</a></li>
+                                <li><a href="#">Contáctanos</a></li>
+                                <li><a href="#">Ayuda</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="single-footer social">
+                            <h4>¡Síguenos!</h4>
+                            <ul>
+                                <li><a href="#"><i class="ti-facebook"></i></a></li>
+                                <li><a href="#"><i class="ti-twitter"></i></a></li>
+                                <li><a href="#"><i class="ti-flickr"></i></a></li>
+                                <li><a href="#"><i class="ti-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/template/js/jquery.min.js"></script>
+    <script src="~/template/js/jquery-migrate-3.0.0.js"></script>
+    <script src="~/template/js/jquery-ui.min.js"></script>
+    <script src="~/template/js/popper.min.js"></script>
+    <script src="~/template/js/bootstrap.min.js"></script>
+    <script src="~/template/js/slicknav.min.js"></script>
+    <script src="~/template/js/magnific-popup.js"></script>
+    <script src="~/template/js/waypoints.min.js"></script>
+    <script src="~/template/js/finalcountdown.min.js"></script>
+    <script src="~/template/js/nicesellect.js"></script>
+    <script src="~/template/js/flex-slider.js"></script>
+    <script src="~/template/js/scrollup.js"></script>
+    <script src="~/template/js/onepage-nav.min.js"></script>
+    <script src="~/template/js/easing.js"></script>
+    <script src="~/template/js/active.js"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            // Evento para cambiar entre pestañas del tab
+            $('#myTab a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+
+            // Evento para hacer scroll suave a los elementos con anclas
+            var links = document.querySelectorAll('a[href^="#"]');
+            links.forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var targetId = link.getAttribute('href').substring(1);
+                    var targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Evento para mostrar u ocultar el menú desplegable
+            $('#toggleCategories').on('click', function () {
+                $('#categoriesDropdown').slideToggle();
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+<link href="~/css/layout_detalles.css" rel="stylesheet" />

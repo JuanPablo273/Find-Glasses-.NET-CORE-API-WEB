@@ -1,0 +1,47 @@
+﻿@model List<ProyectoWeb.Entities.ProductosEnt>
+
+@{
+    ViewData["Title"] = "ProductosMasVendidosLista";
+    Layout = "~/Views/Shared/_Layout_Administracion.cshtml";
+}
+
+<div class="col-lg-10 mx-auto">
+    <div class="text-center">
+        <h1>Lista de Productos Más Vendidos</h1>
+    </div>
+
+    <br />
+    <br />
+    <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0 col-lg-12">
+            <div>
+                <a asp-action="ProductosMasVendidosLista" asp-route-ordenamiento="menorAMayorVecesComprado">Menor a Mayor Veces Comprado</a> |
+                <a asp-action="ProductosMasVendidosLista" asp-route-ordenamiento="mayorAMenorVecesComprado">Mayor a Menor Veces Comprado</a> |
+                <a asp-action="ProductosMasVendidosLista" asp-route-ordenamiento="menorAMayorTotalGanado">Menor a Mayor Total Ganado</a> |
+                <a asp-action="ProductosMasVendidosLista" asp-route-ordenamiento="mayorAMenorTotalGanado">Mayor a Menor Total Ganado</a>
+            </div>
+            <br /><br />
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>IdProducto</th>
+                        <th>Nombre Producto</th>
+                        <th>Veces Comprado</th>
+                        <th>Total Ganado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var producto in Model)
+                    {
+                        <tr>
+                            <td>@producto.IdProducto</td>
+                            <td>@producto.nombreProducto</td>
+                            <td>@producto.VecesComprado</td>
+                            <td>@producto.TotalGanado</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

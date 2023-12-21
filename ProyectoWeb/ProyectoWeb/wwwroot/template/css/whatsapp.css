@@ -1,0 +1,20 @@
+/* Animate WhatsApp*/
+
+@charset "UTF-8";
+
+#whatsapp-logo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+#whatsapp-logo img {
+    width: 70px;
+    height: auto;
+    cursor: pointer;
+    }
+
+#whatsapp-logo img:hover {
+    box-shadow: none;
+    }

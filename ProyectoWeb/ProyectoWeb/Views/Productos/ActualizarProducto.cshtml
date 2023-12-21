@@ -1,0 +1,64 @@
+﻿@model ProyectoWeb.Entities.ProductosEnt
+
+@{
+    ViewData["Title"] = "Actualizar Producto";
+    Layout = "~/Views/Shared/_Layout_Administracion.cshtml";
+}
+
+<div class="content-wrapper d-flex align-items-center auth px-0">
+    <div class="row w-100 mx-0">
+        <div class="col-lg-6 mx-auto">
+
+            <div class="brand-logo">
+                <h2 class="text-center">Actualizar Producto</h2>
+            </div>
+
+            @using (Html.BeginForm("ActualizarProducto2", "Productos", FormMethod.Post, new { @class = "pt-3", @enctype = "multipart/form-data" }))
+            {
+                @ViewBag.MensajePantalla
+
+                @Html.HiddenFor(m => m.IdProducto)
+
+                <div class="form-group">
+                    <label>Nombre del Producto</label>
+                    @Html.TextBoxFor(m => m.nombreProducto, new { @class = "form-control", @placeholder = "Nombre del Producto" })
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    @Html.TextAreaFor(m => m.descripcion, new { @class = "form-control", @rows = "4", @placeholder = "Descripción del Producto" })
+                </div>
+                <div class="form-group">
+                    <label>Precio</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.precio, new { @class = "form-control", @type = "number", @placeholder = "Precio", step = "0.01" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad en Stock</label>
+                    @Html.TextBoxFor(m => m.cantidadStock, new { @class = "form-control", @type = "number", @placeholder = "Cantidad en Stock" })
+                </div>
+                <div class="form-group">
+                    <label>Marca</label>
+                    @Html.TextBoxFor(m => m.marca, new { @class = "form-control", @placeholder = "Marca" })
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Producto</label>
+                    <br />
+                    @Html.DropDownListFor(m => m.tipoProducto, ViewData["tipoProducto"] as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                </div>
+                <br />
+                <br />
+                <div class="form-group">
+                    <label>Imagen</label>
+                    <input type="file" id="ImgProducto" accept="image/png" name="ImgProducto" class="form-control form-control-lg">
+                </div>
+                <br />
+                <div class="text-center">
+                    <button type="submit" class="btn btn-dark rounded-pill">Actualizar</button>
+                </div>
+            }
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
