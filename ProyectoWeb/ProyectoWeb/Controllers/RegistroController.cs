@@ -81,6 +81,81 @@ namespace ProyectoWeb.Controllers
 
 
 
+        [HttpGet]
+        [FiltroSeguridad]
+        public IActionResult ActualizarDescuento(long id)
+        {
+            // Obtener el producto por id 
+            var descuento = _registroModel.ConsultarDescuentoPorId(id);
+
+
+
+            if (descuento != null)
+            {
+                return View(descuento);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
+
+
+        [HttpPost]
+        [FiltroSeguridad]
+        public IActionResult ActualizarDescuento(DescuentosEnt entidad)
+        {
+            var resp = _registroModel.ActualizarDescuento(entidad);
+
+            if (resp == 1)
+            {
+                return RedirectToAction("ConsultarDescuentos", "Registro");
+            }
+            else
+            {
+                ViewBag.MensajePantalla = "No se pudo actualizar el Descuento";
+                return View();
+            }
+        }
+
+
+        [HttpGet]
+        [FiltroSeguridad]
+        public IActionResult RegistrarDescuento()
+        {
+
+            return View();
+
+
+        }
+
+
+        [HttpPost]
+        [FiltroSeguridad]
+        public IActionResult RegistrarDescuento(DescuentosEnt entidad)
+        {
+           
+            
+  
+
+            var IdDescuento = _registroModel.RegistrarDescuento(entidad);
+        
+
+            if (IdDescuento > 0)
+            {
+             
+
+                return RedirectToAction("ConsultarDescuentos", "Registro");
+            }
+
+            ViewBag.MensajePantalla = "No se pudo registrar el Descuento";
+            return View();
+
+        }
+
+
 
     }
 }

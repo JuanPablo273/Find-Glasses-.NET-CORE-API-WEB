@@ -16,6 +16,16 @@ namespace ProyectoWeb.Models
         public int ActualizarEstadoDescuento(DescuentosEnt entidad);
 
 
+        public DescuentosEnt ConsultarDescuentoPorId(long id);
+
+
+        public int ActualizarDescuento(DescuentosEnt entidad);
+
+
+
+        public long RegistrarDescuento(DescuentosEnt entidad);
+
+
 
     }
 }

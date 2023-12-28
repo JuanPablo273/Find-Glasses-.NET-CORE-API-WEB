@@ -1,0 +1,93 @@
+﻿@model ProyectoWeb.Entities.DescuentosEnt
+
+@{
+    ViewData["Title"] = "Registrar Descuento";
+    Layout = "~/Views/Shared/_Layout_Administracion.cshtml";
+}
+
+<div class="content-wrapper d-flex align-items-center auth px-0">
+    <div class="row w-100 mx-0">
+        <div class="col-lg-4 mx-auto">
+
+            <div class="brand-logo">
+                <h1>Registrar Producto</h1>
+                <br />
+            </div>
+
+            @using (Html.BeginForm("RegistrarDescuento", "Registro", FormMethod.Post, new { @class = "pt-3", @enctype = "multipart/form-data" }))
+            {
+                @ViewBag.MensajePantalla
+
+
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Nombre, new { @class="form-control form-control-lg", @type="text", @placeholder="Nombre del Descuento" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Descripcion, new { @class="form-control form-control-lg", @type="text", @placeholder="Descripcion" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.PorcentajeDescuento, new { @class="form-control form-control-lg", @type="text", @placeholder="Porcentaje" })
+                </div>
+
+
+                <div class="form-group">
+                    <label>Fecha de Inicio</label>
+                    @Html.EditorFor(m => m.FechaInicio, new { htmlAttributes = new { @id = "fechaInicio", @class = "form-control" } })
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Fin</label>
+                    @Html.EditorFor(m => m.FechaFin, new { htmlAttributes = new { @id = "fechaFin", @class = "form-control" } })
+                </div>
+
+
+                <div class="form-group">
+                    <label>Codigo de descuento</label>
+                    @Html.TextBoxFor(m => m.CodigoDescuento, new { @class = "form-control", @placeholder = "Codigo" })
+                </div>
+
+
+            
+          
+                <br />
+                <button type="submit" class="btn btn-dark text-white rounded">Registrar</button>
+
+
+                <br />
+                <br />
+                <br />
+
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+
+
+<script>
+    // Obtener valores de los campos ocultos
+    var fechaInicioOriginal = document.getElementById('fechaInicioOriginal').value;
+    var fechaFinOriginal = document.getElementById('fechaFinOriginal').value;
+
+    // Configurar Flatpickr con los valores originales si existen
+    if (fechaInicioOriginal && fechaFinOriginal) {
+        flatpickr("#fechaInicio", {
+            dateFormat: "Y-m-d",
+            defaultDate: fechaInicioOriginal
+        });
+
+        flatpickr("#fechaFin", {
+            dateFormat: "Y-m-d",
+            defaultDate: fechaFinOriginal
+        });
+    }
+</script>

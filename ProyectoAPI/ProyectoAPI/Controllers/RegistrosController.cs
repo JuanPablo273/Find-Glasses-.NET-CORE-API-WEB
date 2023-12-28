@@ -127,6 +127,85 @@ namespace ProyectoAPI.Controllers
         }
 
 
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("ActualizarDescuento")]
+        public IActionResult ActualizarDescuento(DescuentosEnt entidad)
+        {
+            try
+            {
+
+                using (var context = new SqlConnection(_connection))
+                {
+                    var datos = context.Execute("ActualizarDescuento",
+                        new { entidad.Nombre, entidad.Descripcion, entidad.PorcentajeDescuento, entidad.FechaInicio, entidad.FechaFin, entidad.CodigoDescuento, entidad.IdDescuento },
+                        commandType: CommandType.StoredProcedure);
+
+                    return Ok(datos);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ConsultarDescuentoPorId/{id}")]
+        public IActionResult ConsultarDescuentoPorId(long id)
+        {
+            try
+            {
+                using (var context = new SqlConnection(_connection))
+                {
+                    var datos = context.Query<DescuentosEnt>("ConsultarDescuentoPorId",
+                        new { IdDescuento = id },
+                        commandType: CommandType.StoredProcedure).SingleOrDefault();
+
+                    if (datos != null)
+                    {
+                        return Ok(datos);
+                    }
+                    else
+                    {
+                        return NotFound($"No se encontró el Descuento con ID: {id}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("RegistrarDescuentos")]
+        public IActionResult RegistrarDescuentos(DescuentosEnt entidad)
+        {
+            try
+            {
+                using (var context = new SqlConnection(_connection))
+                {
+                    var datos = context.Query<long>("RegistrarDescuento",
+                        new { entidad.Nombre, entidad.Descripcion, entidad.PorcentajeDescuento, entidad.FechaInicio, entidad.FechaFin, entidad.CodigoDescuento},
+                        commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                    return Ok(datos);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+
 
 
 

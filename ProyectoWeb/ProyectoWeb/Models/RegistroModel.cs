@@ -104,7 +104,55 @@ namespace ProyectoWeb.Models
         }
 
 
+        public DescuentosEnt ConsultarDescuentoPorId(long id)
+        {
+            string url = $"{_urlApi}api/Registros/ConsultarDescuentoPorId/{id}";
+            string token = _HttpContextAccessor.HttpContext.Session.GetString("TokenUsuario");
 
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var resp = _httpClient.GetAsync(url).Result;
+
+            if (resp.IsSuccessStatusCode)
+                return resp.Content.ReadFromJsonAsync<DescuentosEnt>().Result;
+            else
+                return null;
+        }
+
+
+
+
+
+        public int ActualizarDescuento(DescuentosEnt entidad)
+        {
+            string url = _urlApi + "api/Registros/ActualizarDescuento";
+            string token = _HttpContextAccessor.HttpContext.Session.GetString("TokenUsuario");
+
+            JsonContent obj = JsonContent.Create(entidad);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var resp = _httpClient.PutAsync(url, obj).Result;
+
+            if (resp.IsSuccessStatusCode)
+                return resp.Content.ReadFromJsonAsync<int>().Result;
+            else
+                return 0;
+        }
+
+
+
+        public long RegistrarDescuento(DescuentosEnt entidad)
+        {
+            string url = _urlApi + "api/Registros/RegistrarDescuentos";
+            string token = _HttpContextAccessor.HttpContext.Session.GetString("TokenUsuario");
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            JsonContent obj = JsonContent.Create(entidad);
+            var resp = _httpClient.PostAsync(url, obj).Result;
+
+            if (resp.IsSuccessStatusCode)
+                return resp.Content.ReadFromJsonAsync<long>().Result;
+            else
+                return 0;
+        }
 
 
 
