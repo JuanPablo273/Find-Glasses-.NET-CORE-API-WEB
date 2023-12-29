@@ -12,7 +12,10 @@
         public DateTime FechaFin { get; set; }
         public string CodigoDescuento { get; set; } = string.Empty;
 
-        public bool Estado { get; set; } 
+        public bool Estado { get; set; }
+
+
+        public string codigoIngresado { get; set; } = string.Empty;
 
 
     }

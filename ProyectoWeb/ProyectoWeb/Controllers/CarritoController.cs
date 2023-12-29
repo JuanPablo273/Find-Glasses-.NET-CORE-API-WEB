@@ -9,11 +9,13 @@ namespace ProyectoWeb.Controllers
     {
         private readonly ICarritoModel _carritoModel;
         private readonly IUsuarioModel _usuarioModel;
+        private readonly IRegistroModel _registroModel;
 
-        public CarritoController(ICarritoModel carritoModel, IUsuarioModel usuarioModel)
+        public CarritoController(ICarritoModel carritoModel, IUsuarioModel usuarioModel, IRegistroModel registroModel)
         {
             _carritoModel = carritoModel;
             _usuarioModel = usuarioModel;
+            _registroModel = registroModel;
         }
 
         [HttpPost]
@@ -45,12 +47,16 @@ namespace ProyectoWeb.Controllers
 
 
 
+
+
+
         [HttpGet]
         [FiltroSeguridad]
         public IActionResult Pagar()
         {
             var usuario = _usuarioModel.ConsultarUsuario(0); // Suponiendo que ConsultarUsuario devuelve un UsuarioEnt
             var carritoItems = _carritoModel.ConsultarCarrito(); // Suponiendo que ConsultarCarrito devuelve una lista de CarritoEnt
+
 
             var viewModel = new CombinacionEnt
             {
@@ -66,50 +72,10 @@ namespace ProyectoWeb.Controllers
 
 
 
-		//ESTO SIRVE PARA VER LA INFO DEL USUARIO EN EL PAGAR PERO QUIERO AGREGAR LA DEL CARRITO TAMBIEN
-		//[HttpGet]
-		//[FiltroSeguridad]
-		//public IActionResult Pagar()
-		//{
-
-		//	ViewBag.Provincias = _usuarioModel.ConsultarProvincias();
-		//	var datos = _usuarioModel.ConsultarUsuario(0);
-
-
-		//	var viewModel = new CombinacionEnt();
 
 
 
-		//	return View(datos);
-		//}
-
-
-
-
-		//[HttpPost]
-		//[FiltroSeguridad]
-		//public IActionResult PagarCarrito()
-		//{
-		//    var respuesta = _carritoModel.PagarCarrito();
-		//    var datos = _carritoModel.ConsultarCarrito();
-
-		//    HttpContext.Session.SetString("Total", datos.Sum(x => x.Total).ToString());
-		//    HttpContext.Session.SetString("Cantidad", datos.Sum(x => x.Cantidad).ToString());
-
-		//    if (respuesta.Contains("verifique"))
-		//    {
-		//        ViewBag.MensajePantalla = respuesta;
-		//        return View("ConsultarCarrito", datos);
-		//    }
-		//    else
-		//    {
-		//        return RedirectToAction("Factura", "Carrito");
-		//    }
-		//}
-
-
-
-		[HttpPost]
+        [HttpPost]
 		[FiltroSeguridad]
 		public IActionResult PagarCarrito()
 		{

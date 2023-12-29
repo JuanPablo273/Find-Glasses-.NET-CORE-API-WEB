@@ -209,5 +209,47 @@ namespace ProyectoAPI.Controllers
 
 
 
+
+
+
+        // CODIGOS DESCUENTO PARA EL PAGAR
+
+        [HttpGet]
+        [Route("VerificarCodigoDescuento")]
+        public IActionResult VerificarCodigoDescuento(string codigoIngresado)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connection))
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@codigoIngresado", codigoIngresado); //  que el nombre coincida con el del procedimiento almacenado
+                    parameters.Add("@porcentajeDescuento", dbType: DbType.Decimal, direction: ParameterDirection.Output); // Parámetro de salida
+
+                    connection.Execute(
+                        "VerificarCodigoDescuento",
+                        parameters,
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    decimal? porcentajeDescuento = parameters.Get<decimal?>("@porcentajeDescuento");
+
+                    if (porcentajeDescuento.HasValue)
+                    {
+                        return Ok(porcentajeDescuento);
+                    }
+                    else
+                    {
+                        return NotFound($"No se encontró el Descuento: {codigoIngresado}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 }

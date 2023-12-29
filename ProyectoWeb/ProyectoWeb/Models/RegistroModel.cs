@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using ProyectoWeb.Entities;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace ProyectoWeb.Models
 {
@@ -153,12 +155,94 @@ namespace ProyectoWeb.Models
             else
                 return 0;
         }
+    
+
+
+
+
+
+
+        public decimal VerificarDescuento(string codigoDescuento)
+        {
+            try
+            {
+                string url = $"{_urlApi}api/Registros/VerificarCodigoDescuento?codigoIngresado={codigoDescuento}";
+
+                string token = _HttpContextAccessor.HttpContext.Session.GetString("TokenUsuario");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+
+                var resp = _httpClient.GetAsync(url).Result;
+
+                if (resp.IsSuccessStatusCode)
+                {
+                    var responseData = resp.Content.ReadAsStringAsync().Result;
+                    var porcentajeDescuento = JsonConvert.DeserializeObject<decimal>(responseData);
+                    return porcentajeDescuento;
+                }
+                else
+                {
+                    // Aquí puedes manejar la respuesta de error si es necesario
+                    // Por ejemplo, lanzar una excepción o manejar un valor por defecto
+                    return 0; // Valor por defecto en caso de error
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones si ocurre algún error en la llamada
+                // Por ejemplo, loguear el error
+                Console.WriteLine($"Error al verificar el descuento: {ex.Message}");
+                throw; // Puedes manejar el error según tu necesidad
+            }
+        }
+
+
+
+
+
+
+        //public decimal VerificarDescuento(string codigoDescuento)
+        //{
+        //    try
+        //    {
+        //        string url = $"{_urlApi}api/Registros/VerificarDescuento";
+
+        //        var content = new StringContent(JsonConvert.SerializeObject(new { codigoDescuento }), Encoding.UTF8, "application/json");
+
+        //        string token = _HttpContextAccessor.HttpContext.Session.GetString("TokenUsuario");
+        //        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        //        var response = _httpClient.PostAsync(url, content).Result;
+
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var responseData = response.Content.ReadAsStringAsync().Result;
+        //            var porcentajeDescuento = JsonConvert.DeserializeObject<decimal>(responseData);
+        //            return porcentajeDescuento;
+        //        }
+        //        else
+        //        {
+        //            // Aquí puedes manejar la respuesta de error si es necesario
+        //            // Por ejemplo, lanzar una excepción o manejar un valor por defecto
+        //            return 0; // Valor por defecto en caso de error
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Manejo de excepciones si ocurre algún error en la llamada
+        //        // Por ejemplo, loguear el error
+        //        Console.WriteLine($"Error al verificar el descuento: {ex.Message}");
+        //        throw; // Puedes manejar el error según tu necesidad
+        //    }
+        //}
+
+
 
 
 
     }
 
-    }
+}
 
 
 

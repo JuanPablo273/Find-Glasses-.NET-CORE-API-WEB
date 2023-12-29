@@ -100,13 +100,40 @@
                     </div>
                     <!--/ End Payment Method Widget -->
                     <!-- Button Widget -->
+
+
+
+
+
+
+                    @* DESCUENTO*@
+
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Código de Descuento</label>
+                            <input id="codigoDescuento" class="form-control form-control-lg" type="text" placeholder="Ingrese el código de descuento">
+                            <button id="verificarDescuento" class="btn btn-primary mt-2">Verificar Descuento</button>
+                        </div>
+                    </div>
+
+
+
+                    @*   //////////////////////////////////////////////////////////*@
+
+
+
+
                     <div class="single-widget">
                         @if (Context.Session.GetString("Total") != "0")
                         {
                             <div class="row" style="margin-top:2%">
                                 <div class="col-12">
-                                    <p style="text-align:center; font-weight:bold; font-size:12pt; line-height:40px"> El total a pagar es de: @decimal.Parse(Context.Session.GetString("Total")).ToString("N2").ToString() </p>
+                                    <p style="text-align:center; font-weight:bold; font-size:12pt; line-height:40px"> El total a pagar es de: <span id="totalAPagar">@decimal.Parse(Context.Session.GetString("Total")).ToString("N2")</span> </p>
+                                    <div id="descuentoAplicado" style="text-align:center; font-size:10pt;"></div>
+                                    <div id="totalConDescuento" style="text-align:center; font-size:12pt; font-weight:bold;"></div>
+
                                 </div>
+
                                 <div class="col-12">
                                     @using (Html.BeginForm("PagarCarrito", "Carrito", FormMethod.Post))
                                     {
@@ -115,6 +142,10 @@
                                         </div>
                                     }
                                 </div>
+                                
+
+                          
+
                             </div>
                         }
                     </div>
@@ -125,3 +156,49 @@
     </div>
 </section>
 <!--/ End Checkout -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script>
+
+
+
+        function calcularTotalConDescuento(porcentajeDescuento) {
+            var totalActual = parseFloat($('#totalAPagar').text().replace(',', ''));
+            var descuento = totalActual * (porcentajeDescuento / 100);
+            var nuevoTotal = totalActual - descuento;
+            return nuevoTotal;
+        }
+
+    $(document).ready(function () {
+        $('#verificarDescuento').click(function (e) {
+            e.preventDefault();
+
+            var codigoIngresado = $('#codigoDescuento').val();
+
+            $.ajax({
+                url: '/Registro/VerificarDescuento',
+                type: 'POST',
+                data: { codigoDescuento: codigoIngresado },
+                success: function (response) {
+                    if (response.valido) {
+                        var porcentajeDescuento = response.porcentajeDescuento;
+                        var totalActual = parseFloat($('#totalAPagar').text().replace(',', ''));
+                        var descuento = totalActual * (porcentajeDescuento / 100);
+                        var nuevoTotal = totalActual - descuento;
+
+                        //$('#totalAPagar').text(nuevoTotal.toFixed(2));
+                        $('#descuentoAplicado').text('Se aplicó un descuento de: $' + descuento.toFixed(2));
+                        $('#totalConDescuento').text('Total con descuento: $' + nuevoTotal.toFixed(2));
+                    } else {
+                        alert('El código de descuento no es válido.');
+                    }
+                },
+                error: function () {
+                    alert('Ha ocurrido un error al verificar el código de descuento.');
+                }
+            });
+        });
+    });
+</script>

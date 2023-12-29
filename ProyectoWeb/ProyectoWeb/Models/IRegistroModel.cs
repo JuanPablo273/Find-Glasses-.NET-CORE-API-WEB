@@ -27,5 +27,9 @@ namespace ProyectoWeb.Models
 
 
 
+        public decimal VerificarDescuento(string codigoDescuento);
+
+
+
     }
 }

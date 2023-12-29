@@ -14,7 +14,17 @@
 
         public bool Estado { get; set; }
 
+        public bool Valido { get; set; }
+
+
+        public string codigoIngresado { get; set; } = string.Empty;
+
+       
 
 
     }
-}
+
+
+
+    }
+

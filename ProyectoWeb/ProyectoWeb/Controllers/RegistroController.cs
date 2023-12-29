@@ -56,14 +56,14 @@ namespace ProyectoWeb.Controllers
         }
 
         [HttpGet]
-       public IActionResult ConsultarDescuentos()
+        public IActionResult ConsultarDescuentos()
         {
 
 
             var descuentos = _registroModel.ConsultarDescuentos();
 
             return View(descuentos);
-        
+
         }
 
 
@@ -136,16 +136,16 @@ namespace ProyectoWeb.Controllers
         [FiltroSeguridad]
         public IActionResult RegistrarDescuento(DescuentosEnt entidad)
         {
-           
-            
-  
+
+
+
 
             var IdDescuento = _registroModel.RegistrarDescuento(entidad);
-        
+
 
             if (IdDescuento > 0)
             {
-             
+
 
                 return RedirectToAction("ConsultarDescuentos", "Registro");
             }
@@ -157,5 +157,43 @@ namespace ProyectoWeb.Controllers
 
 
 
+        //DESCUENTO EN LA VISTA PAGAR
+
+
+
+        [HttpPost]
+        public IActionResult VerificarDescuento(string codigoDescuento)
+        {
+            try
+            {
+                // Llama al método en tu modelo para verificar el descuento utilizando el servicio API
+                decimal porcentajeDescuento = _registroModel.VerificarDescuento(codigoDescuento);
+
+                if (porcentajeDescuento > 0)
+                {
+                    // Si el porcentaje es mayor que cero, consideramos que el descuento es válido
+                    return Json(new { valido = true, porcentajeDescuento = porcentajeDescuento });
+                }
+                else
+                {
+                    // Si el porcentaje es cero o negativo, se considera que el descuento no es válido
+                    return Json(new { valido = false });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción que pueda ocurrir durante la verificación del descuento
+                return BadRequest("Error al verificar el código de descuento: " + ex.Message);
+            }
+        }
+
+
+
     }
 }
+
+
+
+
+
+
