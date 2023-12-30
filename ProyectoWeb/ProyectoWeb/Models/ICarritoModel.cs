@@ -8,7 +8,7 @@ namespace ProyectoWeb.Models
 
         public List<CarritoEnt>? ConsultarCarrito();
 
-        public string PagarCarrito();
+        public string PagarCarrito(decimal porcentajeDescuento);
 
         public int EliminarProductoCarrito(long q);
 

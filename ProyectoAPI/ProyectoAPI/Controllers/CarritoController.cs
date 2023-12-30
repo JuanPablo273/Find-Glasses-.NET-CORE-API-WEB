@@ -74,16 +74,18 @@ namespace ProyectoAPI.Controllers
         [HttpPost]
         [Authorize]
         [Route("PagarCarrito")]
-        public IActionResult PagarCarrito()
+        public IActionResult PagarCarrito(decimal porcentajeDescuento)
         {
             try
             {
                 long IdUsuario = _utilitarios.ObtenerUsuario(User.Claims);
 
+                
+
                 using (var context = new SqlConnection(_connection))
                 {
                     var datos = context.Query<string>("PagarCarrito",
-                        new { IdUsuario },
+                        new { IdUsuario, porcentajeDescuento },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                     return Ok(datos);

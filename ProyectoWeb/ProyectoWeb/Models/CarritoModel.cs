@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Security.Policy;
 using System.Text;
+using Newtonsoft.Json;
 using ProyectoWeb.Entities;
 
 namespace ProyectoWeb.Models
@@ -49,22 +50,48 @@ namespace ProyectoWeb.Models
                 return null;
         }
 
-        public string PagarCarrito()
+
+
+
+
+        public string PagarCarrito(decimal porcentajeDescuento)
         {
-            var entidad = new CarritoEnt();
-            string url = _urlApi + "api/Carrito/PagarCarrito";
+            string url = _urlApi + $"api/Carrito/PagarCarrito?porcentajeDescuento={porcentajeDescuento}";
             string token = _HttpContextAccessor.HttpContext.Session.GetString("TokenUsuario");
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            JsonContent obj = JsonContent.Create(entidad);
-            var resp = _httpClient.PostAsync(url, obj).Result;
+
+            // Realizar la solicitud POST sin un cuerpo JSON, enviando el porcentajeDescuento como un parámetro de consulta en la URL
+            var resp = _httpClient.PostAsync(url, null).Result;
 
             if (resp.IsSuccessStatusCode)
-                //return resp.Content.ReadFromJsonAsync<string>().Result;
                 return resp.Content.ReadAsStringAsync().Result;
             else
                 return string.Empty;
         }
+
+
+
+
+        //ESTA CERCA DE ESTAR BIEN PERO NO LE DA LA GANA AL API AGARRAR EL PORCENTAJE // AQUI SI
+
+
+        //public string PagarCarrito(decimal porcentajeDescuento)
+        //{
+        //    var entidad = new CarritoEnt();
+        //    string url = _urlApi + "api/Carrito/PagarCarrito?porcentajeDescuento" + porcentajeDescuento;
+        //    string token = _HttpContextAccessor.HttpContext.Session.GetString("TokenUsuario");
+
+        //    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        //    JsonContent obj = JsonContent.Create(entidad);
+        //    var resp = _httpClient.PostAsync(url, obj).Result;
+
+        //    if (resp.IsSuccessStatusCode)
+        //        //return resp.Content.ReadFromJsonAsync<string>().Result;
+        //        return resp.Content.ReadAsStringAsync().Result;
+        //    else
+        //        return string.Empty;
+        //}
 
         public int EliminarProductoCarrito(long q)
         {

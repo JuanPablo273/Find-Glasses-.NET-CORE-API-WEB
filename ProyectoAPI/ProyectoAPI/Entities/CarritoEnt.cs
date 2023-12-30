@@ -14,5 +14,7 @@
         public string Nombre { get; set; } = string.Empty;
 
         public string nombreProducto { get; set; } = string.Empty;
+
+        public decimal PorcentajeDescuento { get; set; }
     }
 }

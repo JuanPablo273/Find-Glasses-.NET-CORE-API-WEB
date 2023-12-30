@@ -100,14 +100,6 @@
                     </div>
                     <!--/ End Payment Method Widget -->
                     <!-- Button Widget -->
-
-
-
-
-
-
-                    @* DESCUENTO*@
-
                     <div class="col-12">
                         <div class="form-group">
                             <label>Código de Descuento</label>
@@ -116,36 +108,30 @@
                         </div>
                     </div>
 
-
-
-                    @*   //////////////////////////////////////////////////////////*@
-
-
-
-
                     <div class="single-widget">
                         @if (Context.Session.GetString("Total") != "0")
                         {
                             <div class="row" style="margin-top:2%">
                                 <div class="col-12">
-                                    <p style="text-align:center; font-weight:bold; font-size:12pt; line-height:40px"> El total a pagar es de: <span id="totalAPagar">@decimal.Parse(Context.Session.GetString("Total")).ToString("N2")</span> </p>
+                                    <p style="text-align:center; font-weight:bold; font-size:12pt; line-height:40px">
+                                        El total a pagar es de: <span id="totalAPagar">@decimal.Parse(Context.Session.GetString("Total")).ToString("N2")</span>
+                                    </p>
                                     <div id="descuentoAplicado" style="text-align:center; font-size:10pt;"></div>
                                     <div id="totalConDescuento" style="text-align:center; font-size:12pt; font-weight:bold;"></div>
-
                                 </div>
 
                                 <div class="col-12">
-                                    @using (Html.BeginForm("PagarCarrito", "Carrito", FormMethod.Post))
+                                    @using (Html.BeginForm("PagarCarrito", "Carrito", FormMethod.Post, new { id = "carritoForm" }))
                                     {
+                                        <!-- Otros campos del formulario -->
+                                        <!-- Campo oculto para el porcentaje de descuento -->
+                                        <input type="hidden" id="porcentajeDescuentoInput" name="porcentajeDescuento" value="" />
+
                                         <div class="button">
                                             <input type="submit" class="btn btn-primary" value="Pagar">
                                         </div>
                                     }
                                 </div>
-                                
-
-                          
-
                             </div>
                         }
                     </div>
@@ -161,15 +147,12 @@
 
 
 <script>
-
-
-
-        function calcularTotalConDescuento(porcentajeDescuento) {
-            var totalActual = parseFloat($('#totalAPagar').text().replace(',', ''));
-            var descuento = totalActual * (porcentajeDescuento / 100);
-            var nuevoTotal = totalActual - descuento;
-            return nuevoTotal;
-        }
+    function calcularTotalConDescuento(porcentajeDescuento) {
+        var totalActual = parseFloat($('#totalAPagar').text().replace(',', ''));
+        var descuento = totalActual * (porcentajeDescuento / 100);
+        var nuevoTotal = totalActual - descuento;
+        return nuevoTotal;
+    }
 
     $(document).ready(function () {
         $('#verificarDescuento').click(function (e) {
@@ -184,13 +167,15 @@
                 success: function (response) {
                     if (response.valido) {
                         var porcentajeDescuento = response.porcentajeDescuento;
-                        var totalActual = parseFloat($('#totalAPagar').text().replace(',', ''));
-                        var descuento = totalActual * (porcentajeDescuento / 100);
-                        var nuevoTotal = totalActual - descuento;
 
-                        //$('#totalAPagar').text(nuevoTotal.toFixed(2));
-                        $('#descuentoAplicado').text('Se aplicó un descuento de: $' + descuento.toFixed(2));
-                        $('#totalConDescuento').text('Total con descuento: $' + nuevoTotal.toFixed(2));
+                        var descuento = calcularTotalConDescuento(porcentajeDescuento);
+                        var totalConDescuento = calcularTotalConDescuento(porcentajeDescuento);
+
+                        $('#descuentoAplicado').text('Descuento aplicado: ' + descuento.toFixed(2));
+                        $('#totalConDescuento').text('Total con descuento: ' + totalConDescuento.toFixed(2));
+
+                        // Establecer el valor del porcentajeDescuento en el campo oculto
+                        $('#porcentajeDescuentoInput').val(porcentajeDescuento);
                     } else {
                         alert('El código de descuento no es válido.');
                     }
@@ -200,5 +185,14 @@
                 }
             });
         });
+
+        $('#carritoForm').submit(function (e) {
+            var porcentajeDescuento = $('#porcentajeDescuentoInput').val();
+            if (porcentajeDescuento === '') {
+                e.preventDefault();
+                alert('No se ha verificado ningún descuento.');
+            }
+        });
     });
 </script>
+<input type="hidden" id="porcentajeDescuentoInput" name="porcentajeDescuento" value="" />

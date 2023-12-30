@@ -77,9 +77,17 @@ namespace ProyectoWeb.Controllers
 
         [HttpPost]
 		[FiltroSeguridad]
-		public IActionResult PagarCarrito()
+		public IActionResult PagarCarrito(decimal porcentajeDescuento)
 		{
-			var respuesta = _carritoModel.PagarCarrito();
+
+
+
+
+
+			var respuesta = _carritoModel.PagarCarrito(porcentajeDescuento);
+
+
+
 			var datos = _carritoModel.ConsultarCarrito();
 
 			HttpContext.Session.SetString("Total", datos.Sum(x => x.Total).ToString());
