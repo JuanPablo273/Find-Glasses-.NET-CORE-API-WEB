@@ -323,6 +323,35 @@ namespace ProyectoAPI.Controllers
         }
 
 
+
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ConsultarCitasReservadas")]
+        public IActionResult ConsultarCitasReservadas()
+        {
+            try
+            {
+                using (var context = new SqlConnection(_connection))
+                {
+                    var fechasReservadas = context.Query<DateTime>("ConsultarCitasReservadas",
+                        new { },
+                        commandType: CommandType.StoredProcedure).ToList();
+
+                    return Ok(fechasReservadas);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+
+
         ////PARA ACTIVAR O INACTIVAR LOS TIPO DE CITAS SE COMENTO POR UN PROBLEMA A LA HORA DE CREAR LA BASE DE DATOS REVISAR LUEGO
 
         //[HttpPut]

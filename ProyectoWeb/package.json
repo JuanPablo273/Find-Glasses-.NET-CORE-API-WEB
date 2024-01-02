@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "colorjs.io": "^0.4.5",
+    "owl.carousel": "^2.3.4"
+  }
+}

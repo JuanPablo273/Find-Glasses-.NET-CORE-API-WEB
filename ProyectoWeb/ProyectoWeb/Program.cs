@@ -12,6 +12,7 @@ builder.Services.AddSingleton<IUsuarioModel, UsuarioModel>();
 builder.Services.AddSingleton<IProductosModel, ProductosModel>();
 builder.Services.AddSingleton<ICarritoModel, CarritoModel>();
 builder.Services.AddSingleton<IRegistroModel, RegistroModel>();
+builder.Services.AddSingleton<ICitasModel, CitasModel>();
 
 var app = builder.Build();
 

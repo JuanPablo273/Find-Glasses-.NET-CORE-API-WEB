@@ -1,0 +1,146 @@
+
+@model ProyectoWeb.Entities.CitaEnt
+
+@{
+    ViewData["Title"] = "Registro de citas a clientes";
+    Layout = "~/Views/Shared/_Layout_Administracion.cshtml";
+}
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/rangePlugin.css">
+<link rel="stylesheet" href="/node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
+
+<div class="content-wrapper d-flex align-items-center auth px-0">
+    <div class="row w-100 mx-0">
+        <div class="col-lg-4 mx-auto">
+
+            <div class="brand-logo">
+                <h1>Registro de Cita a Clientes</h1>
+                <br />
+            </div>
+
+            @using (Html.BeginForm("RegistrarCitas", "Citas", FormMethod.Post, new { @class = "pt-3", @enctype = "multipart/form-data" }))
+            {
+                @ViewBag.MensajePantalla
+
+
+                <div class="form-group">
+                    <label>Fecha de la Cita</label>
+
+                    @Html.EditorFor(m => m.FechaHora, new { htmlAttributes = new { @id = "fechaHora", @class = "form-control flatpickr" } })
+
+                </div>
+                <div class="form-group">
+                    <label>Nombre del Usuario</label>
+                    @Html.TextBoxFor(m => m.IdUsuario, new { @class="form-control form-control-lg", @type="text" })
+                </div>
+                <label>Tipo de Cita</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(m => m.TipoCita, ViewBag.ConsultarTipoCita as List<SelectListItem>, new { @class = "form-control form-control-lg" })
+                </div>
+                <br />
+                <button type="submit" class="btn btn-dark text-white rounded">Registrar Cita del Usuario</button>
+
+
+                <br />
+                <br />
+                <br />
+
+            }
+        </div>
+    </div>
+</div>
+
+
+<!-- Scripts al final del body -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/rangePlugin.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<!-- Scripts locales (de node_modules) -->
+<script src="/node_modules/jquery/dist/jquery.js"></script>
+<script src="/node_modules/owl.carousel/dist/owl.carousel.min.js"></script>
+
+
+<script>
+    flatpickr("#fechaHora", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "h:i K", // Formato de hora en 12 horas con AM/PM
+        time_24hr: false, // Usar formato de 12 horas
+        minuteIncrement: 30, // Intervalo de minutos
+        onClose: function (selectedDates, dateStr, instance) {
+            var selectedDate = instance.selectedDates[0];
+            if (selectedDate) {
+                var minutes = selectedDate.getMinutes();
+                if (minutes % 30 !== 0) {
+                    selectedDate.setMinutes(minutes < 30 ? 0 : 30);
+                    instance.setDate(selectedDate);
+                }
+            }
+        },
+        onReady: function (selectedDates, dateStr, instance) {
+            var flatpickrEl = instance.calendarContainer;
+
+            // Crear una lista de horas con intervalos de 30 minutos
+            var horasHTML = "<div class='horas-container'>";
+
+            for (var hora = 0; hora < 24; hora++) {
+                for (var minuto = 0; minuto < 60; minuto += 30) {
+                    var horaStr = (hora < 10 ? '0' : '') + hora;
+                    var minutoStr = (minuto < 10 ? '0' : '') + minuto;
+                    horasHTML += '<div class="hora" data-hora="' + horaStr + ':' + minutoStr + '">' + convertirHora(hora) + ':' + minutoStr + '</div>';
+                }
+            }
+
+            horasHTML += "</div>";
+
+            // Insertar la lista de horas en Flatpickr
+            flatpickrEl.querySelector(".flatpickr-time").innerHTML = horasHTML;
+
+            // Añadir estilos CSS para la visualización
+            var style = document.createElement('style');
+            style.innerHTML = `
+                    .horas-container {
+                        display: grid;
+                        grid-template-columns: repeat(4, 1fr); /* Puedes ajustar el número de columnas aquí */
+                        gap: 5px;
+                    }
+                    .hora {
+                        border: 1px solid #ccc;
+                        padding: 5px;
+                        cursor: pointer;
+                        text-align: center;
+                    }
+                    .hora:hover {
+                        background-color: #f0f0f0;
+                    }
+                `;
+            flatpickrEl.querySelector(".flatpickr-time").appendChild(style);
+
+            // Manejar la selección de la hora
+            flatpickrEl.querySelector(".flatpickr-time").addEventListener("click", function (e) {
+                if (e.target.classList.contains('hora')) {
+                    var horaSeleccionada = e.target.dataset.hora;
+                    instance.setDate(horaSeleccionada, true);
+                }
+            });
+        }
+    });
+
+    // Función para convertir hora en formato de 12 horas (AM/PM)
+    function convertirHora(hora) {
+        if (hora === 0) {
+            return '12 AM';
+        } else if (hora < 12) {
+            return hora + ' AM';
+        } else if (hora === 12) {
+            return '12 PM';
+        } else {
+            return (hora - 12) + ' PM';
+        }
+    }
+</script>
+
