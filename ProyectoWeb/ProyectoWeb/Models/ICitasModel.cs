@@ -16,5 +16,17 @@ namespace ProyectoWeb.Models
         public long RegistrarCitas(CitaEnt entidad);
 
         public List<DateTime>? ConsultarFechasReservadas();
+
+        public int ActualizarEstadoCita(CitaEnt entidad);
+
+
+        public int ActualizarCita(CitaEnt entidad);
+
+
+        public CitaEnt ConsultarCitaPorId(long id);
+
+
+        public List<SelectListItem>? ConsultarTipoUsuario();
     }
+
 }

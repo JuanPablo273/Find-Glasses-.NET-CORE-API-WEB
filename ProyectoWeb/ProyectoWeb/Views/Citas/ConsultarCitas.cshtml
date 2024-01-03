@@ -20,22 +20,49 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th>TipoCita</th>
+                        <th>Tipo de Cita</th>
                         <th>FechaHora</th>
-                        <th>IdUsuario</th> @*//REALIZAR UN DROPDOWN PARA MOSTAR EL NOMBRE DEL USUARIO EN VEZ DEL ID*@
+                        <th>Nombre del Usuario</th> @*//REALIZAR UN DROPDOWN PARA MOSTAR EL NOMBRE DEL USUARIO EN VEZ DEL ID*@
                         <th>Estado</th>
                         <th>Actualizar Estado</th>
                         <th>Actualizar Cita</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var descuentos in Model)
+                    @foreach (var citas in Model)
                     {
                         <tr>
-                            <td>@descuentos.TipoCita</td>
-                            <td>@descuentos.FechaHora</td>
-                            <td>@descuentos.IdUsuario</td>
-                            @if (@descuentos.estado)
+                            <td>
+                                @{
+                                    var tipoCita = ViewBag.ConsultarTipoCita as List<SelectListItem>;
+                                    var cita = tipoCita.FirstOrDefault(u => u.Value == citas.TipoCita.ToString());
+                                    if (cita != null)
+                                    {
+                                        @cita.Text
+                                    }
+                                    else
+                                    {
+                                        @citas.TipoCita
+                                        // Si no se encuentra el nombre, se muestra el ID del tipo de cita
+                                    }
+                                }
+                            </td>
+                            <td>@citas.FechaHora</td>
+                            <td>
+                                @{
+                                    var tipoUsuarios = ViewBag.ConsultarTipoUsuario as List<SelectListItem>;
+                                    var usuario = tipoUsuarios.FirstOrDefault(u => u.Value == citas.IdUsuario.ToString());
+                                    if (usuario != null)
+                                    {
+                                        @usuario.Text
+                                    }
+                                    else
+                                    {
+                                        @citas.IdUsuario
+                                        // Si no se encuentra el nombre, se muestra el ID del usuario
+                                    }
+                                }
+                            @if (@citas.estado)
                             {
                                 <td>Activo</td>
                             }
@@ -43,8 +70,8 @@
                             {
                                 <td>Inactivo</td>
                             }
-                            <td style="text-align:center"><a href="@Url.Action("ActualizarEstadoCita","Citas", new { q = descuentos.IdCita })"><i class="fa fa-exchange fa-lg"></i></a></td>
-                            <td style="text-align:center"><a href="@Url.Action("ActualizarCita","Citas", new { id = descuentos.IdCita })"><i class="fa fa-pencil fa-lg"></i></a></td>
+                            <td style="text-align:center"><a href="@Url.Action("ActualizarEstadoCita","Citas", new { q = citas.IdCita })"><i class="fa fa-exchange fa-lg"></i></a></td>
+                            <td style="text-align:center"><a href="@Url.Action("ActualizarCita","Citas", new { id = citas.IdCita })"><i class="fa fa-pencil fa-lg"></i></a></td>
 
                         </tr>
                     }

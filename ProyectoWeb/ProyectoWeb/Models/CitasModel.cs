@@ -101,8 +101,65 @@ namespace ProyectoWeb.Models
         }
 
 
+        public int ActualizarEstadoCita(CitaEnt entidad)
+        {
+            string url = _urlApi + "api/Citas/ActualizarEstadoCita";
+            string token = _HttpContextAccessor.HttpContext.Session.GetString("TokenUsuario");
+
+            JsonContent obj = JsonContent.Create(entidad);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var resp = _httpClient.PutAsync(url, obj).Result;
+
+            if (resp.IsSuccessStatusCode)
+                return resp.Content.ReadFromJsonAsync<int>().Result;
+            else
+                return 0;
+        }
 
 
+
+        public int ActualizarCita(CitaEnt entidad)
+        {
+            string url = _urlApi + "api/Citas/ActualizarCita";
+            string token = _HttpContextAccessor.HttpContext.Session.GetString("TokenUsuario");
+
+            JsonContent obj = JsonContent.Create(entidad);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var resp = _httpClient.PutAsync(url, obj).Result;
+
+            if (resp.IsSuccessStatusCode)
+                return resp.Content.ReadFromJsonAsync<int>().Result;
+            else
+                return 0;
+        }
+
+        public CitaEnt ConsultarCitaPorId(long id)
+        {
+            string url = $"{_urlApi}api/Citas/ConsultarCitaPorId/{id}";
+            string token = _HttpContextAccessor.HttpContext.Session.GetString("TokenUsuario");
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var resp = _httpClient.GetAsync(url).Result;
+
+            if (resp.IsSuccessStatusCode)
+                return resp.Content.ReadFromJsonAsync<CitaEnt>().Result;
+            else
+                return null;
+        }
+
+
+
+        public List<SelectListItem>? ConsultarTipoUsuario()
+        {
+
+            string url = _urlApi + "api/Citas/ConsultarTipoUsuario";
+            var resp = _httpClient.GetAsync(url).Result;
+
+            if (resp.IsSuccessStatusCode)
+                return resp.Content.ReadFromJsonAsync<List<SelectListItem>>().Result;
+            else
+                return null;
+        }
 
     }
 }

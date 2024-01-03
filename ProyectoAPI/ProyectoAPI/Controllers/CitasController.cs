@@ -414,6 +414,27 @@ namespace ProyectoAPI.Controllers
             }
         }
 
+        [HttpGet] //PARA EL DROPDOWN
+        [AllowAnonymous]
+        [Route("ConsultarTipoUsuario")]
+        public IActionResult ConsultarTipoUsuario()
+        {
+            try
+            {
+                using (var context = new SqlConnection(_connection))
+                {
+                    var datos = context.Query<SelectListItem>("ConsultarTipoUsuario",
+                        new { },
+                        commandType: CommandType.StoredProcedure).ToList();
+
+                    return Ok(datos);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

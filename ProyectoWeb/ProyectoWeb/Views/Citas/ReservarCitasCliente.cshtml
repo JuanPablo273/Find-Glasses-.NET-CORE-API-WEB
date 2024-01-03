@@ -9,13 +9,16 @@
     <div class="row w-100 mx-0">
         <div class="col-lg-4 mx-auto">
             <div class="brand-logo">
-                <h1>Registro de Cita a Clientes</h1>
+                <h1>Haz tu Cita aqui</h1>
                 <br />
             </div>
 
-            @using (Html.BeginForm("RegistrarCitas", "Citas", FormMethod.Post, new { @class = "pt-3", @enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("ActualizarCita", "Citas", FormMethod.Post, new { @class = "pt-3", @enctype = "multipart/form-data" }))
             {
                 @ViewBag.MensajePantalla
+
+                @Html.HiddenFor(m => m.IdCita)
+
 
                 <div class="form-group">
                     <label>Fecha de la Cita</label>
@@ -28,20 +31,8 @@
                     <div class="owl-carousel" id="horarios-carousel"></div>
                 </div>
 
-                <label>Nombre del Usuario</label>
-                <div class="form-group">
-                   
-                   @Html.DropDownListFor(m => m.IdUsuario, ViewBag.ConsultarTipoUsuario as List<SelectListItem>, new { @class = "form-control form-control-lg" })
-                </div>
 
-            
-                <br />
-                <br />
-        
-                    <label>Tipo de Cita</label>
-
-
-                
+                <label>Tipo de Cita</label>
                 <div class="form-group">
                     @Html.DropDownListFor(m => m.TipoCita, ViewBag.ConsultarTipoCita as List<SelectListItem>, new { @class = "form-control form-control-lg" })
                 </div>

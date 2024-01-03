@@ -159,7 +159,7 @@
                         <div class="col-lg-3">
                             <div class="all-category">
                                 <!-- Agrega un identificador único para el menú desplegable -->
-                                <h3 class="cat-heading"><i class="fa fa-bars" aria-hidden="true" id="toggleCategories"></i>Categorías</h3>
+                                <h3 class="cat-heading"><i class="fa fa-bars" aria-hidden="true" id="toggleCategories"></i>Categorías de Articulos</h3>
                                 <ul class="main-category" id="categoriesDropdown" style="display: none;">
                                     <li><a href="#seccionProductos">Lentes de sol</a></li>
                                     <li><a href="#seccionProductos">Anteojos</a></li>
@@ -172,9 +172,7 @@
             </div>
         </div>
 
-
-
-
+     
 
     </header>
 
@@ -188,9 +186,10 @@
                                 <div class="col-lg-7 col-12">
                                     <div class="hero-text">
                                         <h1 style="color: white;"><span style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">¡Las mejores alternativas para tu vista!</span> Lentes y anteojos</h1>
-                                        <p style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">¡Si no lo encuentras aquí,<br> aún no tienes nuestros lentes puestos!</p>
+                                        <p style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">¡Compra y cambia,<br> A un solo click!</p>
                                         <div class="button">
-                                            <a href="@Url.Action("Pagar", "Carrito")" class="btn">¡Compra ahora!</a>
+                                        @*    <a href="@Url.Action("ReservarCitasCliente", "Citas")" class="btn">Agenda Tu Cita </a>*@
+                                            <a href="@Url.Action("ReservarCitasCliente", "Citas", new { idUsuario = ViewBag.IdUsuario })" class="btn">Agenda Tu Cita</a>
                                         </div>
                                     </div>
                                 </div>

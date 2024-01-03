@@ -30,3 +30,29 @@
     font-size: 16px; /* Ajusta el tamaño de fuente según sea necesario */
 }
 
+/* Estilos generales comunes */
+.same-style {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0;
+    text-decoration: none;
+    color: inherit;
+    border: none;
+    font-size: 16px;
+    background-color: inherit; /* Ajusta el color de fondo según sea necesario */
+}
+
+    /* Estilos para el botón "Haz tu Cita" en estado normal */
+    .same-style.btn-reserva {
+        /* Puedes agregar estilos adicionales según tu diseño */
+    }
+
+        /* Estilos para el botón "Haz tu Cita" en estado hover (al pasar el cursor sobre él) */
+        .same-style.btn-reserva:hover {
+            /* Puedes agregar estilos adicionales al pasar el cursor sobre el botón */
+        }
+
+        /* Estilos para el botón "Haz tu Cita" en estado de foco (cuando está seleccionado) */
+        .same-style.btn-reserva:focus {
+            /* Puedes agregar estilos adicionales cuando el botón está enfocado */
+        }
